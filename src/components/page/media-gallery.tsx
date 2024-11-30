@@ -1,36 +1,47 @@
 "use client";
 
 import { useState } from "react";
- import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ImageIcon, Film, Music, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
- 
 import { Input } from "@/components/ui/input";
- import { useMediaItems } from "@/hooks/useMediaItems";
- import MediaItem from "../MediaItem";
+import { useMediaItems } from "@/hooks/useMediaItems";
+import MediaItem from "../MediaItem";
+import { useAuth } from "@/hooks/useAuth";
 
 export function MediaGallery() {
-  const [filter, setFilter] = useState<"all" | "image" | "video" | "audio">(
-    "all"
-  );
+  const [filter, setFilter] = useState<"all" | "image" | "video" | "audio">("all");
   const [searchTerm, setSearchTerm] = useState("");
   const { mediaItems, loading, error } = useMediaItems();
+  const { user } = useAuth();
 
+  // Filter media based on selected type and search term
   const filteredMedia = mediaItems.filter(
     (item) =>
       (filter === "all" || item.type === filter) &&
       item.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Handle loading state
   if (loading) {
     return <div className="text-center py-10">Loading...</div>;
   }
 
+  // Handle error state
   if (error) {
     return (
       <div className="text-center py-10 text-red-500">
         Error: {error.message}
+      </div>
+    );
+  }
+
+  // Handle empty state
+  if (!filteredMedia.length) {
+    return (
+      <div className="text-center py-10 text-gray-500">
+        No media found. Try a different filter or search term.
       </div>
     );
   }
@@ -83,7 +94,13 @@ export function MediaGallery() {
       </Tabs>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredMedia.map((item) => (
-          <MediaItem key={item.id} item={item} />
+          <MediaItem
+            key={item.id}
+            item={{
+              ...item,
+              userId: user?.uid ?? "",
+            }}
+          />
         ))}
       </div>
     </div>
