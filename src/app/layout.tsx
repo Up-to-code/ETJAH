@@ -4,8 +4,8 @@ import Navbar from "@/components/common/Navbar";
 import Middleware from "@/components/middleware";
 
 export const metadata: Metadata = {
-  title: "CRM",
-  description: "CRM",
+  title: "ETJAH System",
+  description: "ETJAH System - A simple CRM system built with Next.js and Firebase",
 };
 
 export default function RootLayout({
