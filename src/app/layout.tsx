@@ -5,7 +5,8 @@ import Middleware from "@/components/middleware";
 
 export const metadata: Metadata = {
   title: "ETJAH System",
-  description: "ETJAH System - A simple CRM system built with Next.js and Firebase",
+  description:
+    "ETJAH System - A simple CRM system built with Next.js and Firebase",
 };
 
 export default function RootLayout({

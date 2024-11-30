@@ -45,7 +45,7 @@ function Navbar() {
           </div>
 
           <div className="hidden md:block">
-            <div className="ml-4 flex items-center md:ml-6">
+            {/* <div className="ml-4 flex items-center md:ml-6">
               <form className="relative">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
                 <Input
@@ -54,7 +54,7 @@ function Navbar() {
                   type="search"
                 />
               </form>
-            </div>
+            </div> */}
           </div>
 
           <div className="hidden md:block">

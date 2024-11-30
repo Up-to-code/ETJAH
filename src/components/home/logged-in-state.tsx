@@ -30,7 +30,7 @@ export function LoggedInState({ user }: { user: User }) {
       setTaskCount(taskSnapshot.size);
 
       // Fetch contact count (assuming you have a 'contacts' collection)
-      const contactQuery = query(collection(db, "contacts"), where("userId", "==", user.uid));
+      const contactQuery = query(collection(db, "users", user.uid , "transactions"));
       const contactSnapshot = await getDocs(contactQuery);
       setContactCount(contactSnapshot.size);
 
