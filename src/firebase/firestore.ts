@@ -1,11 +1,11 @@
-import {  firebase as db } from '.';
+import {  auth, firebase as db } from '.';
 import { collection, addDoc, query, orderBy, limit, getDocs, DocumentData } from 'firebase/firestore';
 import { Transaction, FinancialSummary } from '../types/financial';
 
-const TRANSACTIONS_COLLECTION = 'transactions';
+const TRANSACTIONS_COLLECTION = `transactions`;
 
 export async function getRecentTransactions(limitCount: number = 5): Promise<Transaction[]> {
-  const transactionsCol = collection(db, TRANSACTIONS_COLLECTION);
+  const transactionsCol = collection(db,"users" ,auth.currentUser?.uid as string, TRANSACTIONS_COLLECTION);
   const recentTransactionsQuery = query(transactionsCol, orderBy('date', 'desc'), limit(limitCount));
   const transactionSnapshot = await getDocs(recentTransactionsQuery);
   
@@ -16,7 +16,7 @@ export async function getRecentTransactions(limitCount: number = 5): Promise<Tra
 }
 
 export async function getFinancialSummary(): Promise<FinancialSummary> {
-  const transactionsCol = collection(db, TRANSACTIONS_COLLECTION);
+  const transactionsCol = collection(db,"users" ,auth.currentUser?.uid as string, TRANSACTIONS_COLLECTION)
   const transactionSnapshot = await getDocs(transactionsCol);
   
   let totalIncome = 0;
@@ -41,7 +41,7 @@ export async function getFinancialSummary(): Promise<FinancialSummary> {
 }
 
 export async function addTransaction(transaction: Omit<Transaction, 'id'>): Promise<string> {
-  const docRef = await addDoc(collection(db, TRANSACTIONS_COLLECTION), transaction);
+  const docRef = await addDoc(collection(db,"users" ,auth.currentUser?.uid as string, TRANSACTIONS_COLLECTION), transaction);
   return docRef.id;
 }
 
