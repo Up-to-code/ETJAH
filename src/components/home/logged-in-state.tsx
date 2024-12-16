@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-"use client"
+"use client";
 
 import { User } from "firebase/auth";
 import {
@@ -10,7 +10,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowRight, ListTodo,  FileText, Settings, CreditCard } from 'lucide-react';
+import {
+  ArrowRight,
+  ListTodo,
+  FileText,
+  Settings,
+  CreditCard,
+  File,
+} from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
@@ -25,17 +32,25 @@ export function LoggedInState({ user }: { user: User }) {
   useEffect(() => {
     const fetchCounts = async () => {
       // Fetch task count
-      const taskQuery = query(collection(db, "tasks"), where("userId", "==", user.uid));
+      const taskQuery = query(
+        collection(db, "tasks"),
+        where("userId", "==", user.uid)
+      );
       const taskSnapshot = await getDocs(taskQuery);
       setTaskCount(taskSnapshot.size);
 
       // Fetch contact count (assuming you have a 'contacts' collection)
-      const contactQuery = query(collection(db, "users", user.uid , "transactions"));
+      const contactQuery = query(
+        collection(db, "users", user.uid, "transactions")
+      );
       const contactSnapshot = await getDocs(contactQuery);
       setContactCount(contactSnapshot.size);
 
       // Fetch file count (assuming you have a 'mediaItems' collection)
-      const fileQuery = query(collection(db, "mediaItems"), where("userId", "==", user.uid));
+      const fileQuery = query(
+        collection(db, "mediaItems"),
+        where("userId", "==", user.uid)
+      );
       const fileSnapshot = await getDocs(fileQuery);
       setFileCount(fileSnapshot.size);
     };
@@ -45,7 +60,9 @@ export function LoggedInState({ user }: { user: User }) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Welcome, {user.displayName || user.email}!</h1>
+      <h1 className="text-3xl font-bold mb-6">
+        Welcome, {user.displayName || user.email}!
+      </h1>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <DashboardCard
           title="Tasks"
@@ -63,7 +80,7 @@ export function LoggedInState({ user }: { user: User }) {
           linkHref="/accountant"
           linkText="Go to Accountant"
         />
- 
+
         <DashboardCard
           title="Files"
           description="Your media library"
@@ -80,6 +97,14 @@ export function LoggedInState({ user }: { user: User }) {
           linkHref="/settings"
           linkText="Open Settings"
         /> */}
+        <DashboardCard
+          title="upload_thing"
+          description="upload_thing"
+          icon={<File className="h-6 w-6" />}
+          content={""}
+          linkHref="/upload_thing"
+          linkText="Go to upload_thing"
+        />
       </div>
     </div>
   );
@@ -94,7 +119,14 @@ interface DashboardCardProps {
   linkText: string;
 }
 
-function DashboardCard({ title, description, icon, content, linkHref, linkText }: DashboardCardProps) {
+function DashboardCard({
+  title,
+  description,
+  icon,
+  content,
+  linkHref,
+  linkText,
+}: DashboardCardProps) {
   return (
     <Card>
       <CardHeader>
